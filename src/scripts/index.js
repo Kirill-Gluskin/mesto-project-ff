@@ -1,3 +1,5 @@
+import { initialCards } from "./cards";
+
 // @todo: Темплейт карточки
    //получаю содержимое template через свойство content
 const cardTemplate = document.querySelector("#card-template").content;

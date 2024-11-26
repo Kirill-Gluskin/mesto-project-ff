@@ -1,4 +1,5 @@
 import './pages/index.css';
+import './scripts/index.js';
 
 const numbers = [2, 3, 5];
 
