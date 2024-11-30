@@ -2,7 +2,7 @@
 const cardTemplate = document.querySelector("#card-template").content;
 
     // @todo: Функция создания карточки
-export function createCard(cardData, deleteCardElement, likeCard) {
+export function createCard(cardData, deleteCardElement, likeCard, openImage) {
     //клонирую элемент с классом "card" со всем содержимым
     const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
     //наполняю карточку содержимым
@@ -17,6 +17,8 @@ export function createCard(cardData, deleteCardElement, likeCard) {
     //проставление лайка
     const likeButton = cardElement.querySelector('.card__like-button');
     likeButton.addEventListener('click', () => likeCard(likeButton));
+    //открытие попапа с карточкой
+    cardImage.addEventListener('click', openImage);
     return cardElement;
 }
 // @todo: Функция удаления карточки
@@ -28,4 +30,5 @@ export function deleteCard(card) {
 export function likeCard(likeButton) {
     likeButton.classList.toggle('card__like-button_is-active');
 }
+
 

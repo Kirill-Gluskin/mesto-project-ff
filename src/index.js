@@ -1,23 +1,23 @@
 import './pages/index.css';
 import { initialCards } from "./scripts//cards";
-import { closeHundler, openPopHendler } from './scripts/modal.js';
+import { closeModal, openModal } from './scripts/modal.js';
 import { createCard, deleteCard, likeCard } from "./scripts/card";
 
 //элементы для вызова события при клике на кнопку редактирования
 const buttonEdit = document.querySelector('.profile__edit-button');
 const modalEdit = document.querySelector('.popup_type_edit');
-buttonEdit.addEventListener('click', () => openPopHendler(modalEdit))
+buttonEdit.addEventListener('click', () => openModal(modalEdit))
 
 //элементы для вызова события при клике на кнопку плюс
 const buttonPlus = document.querySelector('.profile__add-button');
 const modalPlus = document.querySelector('.popup_type_new-card');
-buttonPlus.addEventListener('click', () => openPopHendler(modalPlus));
+buttonPlus.addEventListener('click', () => openModal(modalPlus));
 
 //нахожу элементы с классом "places__list" и добавляю их в cardContainer
 const cardContainer = document.querySelector('.places__list');
 // @todo: Вывести карточки на страницу
 initialCards.forEach((cardData) => {
-    const cardElement = createCard(cardData, deleteCard, likeCard);
+    const cardElement = createCard(cardData, deleteCard, likeCard, handleImageClick);
     cardContainer.append(cardElement); //добавляю элемент в конец cardContainer
 });
 
@@ -36,7 +36,7 @@ function handleEditSubmit(evt) {
     evt.preventDefault();
     profileTitle.textContent = nameInput.value;
     profileDescription.textContent = jobInput.value;
-    closeHundler(modalEdit);
+    closeModal(modalEdit);
 }
 
 formElement.addEventListener('submit', handleEditSubmit);
@@ -48,10 +48,25 @@ function handleAddCardSubmit(evt) {
     const name = addCard.elements['place-name'].value;
     const link = addCard.elements.link.value;
     console.log(name, link);
-    const card = createCard({name, link}, deleteCard, likeCard);
+    const card = createCard({name, link}, deleteCard, likeCard, handleImageClick);
     cardContainer.prepend(card);
-    closeHundler(modalPlus);
+    closeModal(modalPlus);
     addCard.reset();
 }
 
 addCard.addEventListener('submit', handleAddCardSubmit);
+
+//получение элеиента по нажатию на картинку
+const modalImage = document.querySelector('.popup_type_image');
+
+//функция попапа картинки
+function  handleImageClick(evt) {
+    const imageNode = evt.target;
+    const imageSrc = imageNode.src;
+    const imageAlt = imageNode.alt;
+    const popupImage = modalImage.querySelector('.popup__image');
+    const popupCaption = modalImage.querySelector('.popup__caption');
+    popupImage.src = imageSrc;
+    popupCaption.textContent = imageAlt;
+    openModal(modalImage);
+}
