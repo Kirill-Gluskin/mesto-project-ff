@@ -1,13 +1,8 @@
-import { initialCards } from "./cards";
-
-// @todo: Темплейт карточки
-   //получаю содержимое template через свойство content
+//получаю содержимое template через свойство content
 const cardTemplate = document.querySelector("#card-template").content;
-// @todo: DOM узлы
-    //нахожу элементы с классом "places__list" и добавляю их в cardContainer
-const cardContainer = document.querySelector('.places__list');
+
     // @todo: Функция создания карточки
-function createCard(cardData, deleteCardElement) {
+export function createCard(cardData, deleteCardElement, likeCard) {
     //клонирую элемент с классом "card" со всем содержимым
     const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
     //наполняю карточку содержимым
@@ -19,14 +14,18 @@ function createCard(cardData, deleteCardElement) {
     cardTitle.textContent = cardData.name;
     //добавляю обработчик для удаления карточки по кнопке deleteButton
     deleteButton.addEventListener('click', () => deleteCardElement(cardElement));
+    //проставление лайка
+    const likeButton = cardElement.querySelector('.card__like-button');
+    likeButton.addEventListener('click', () => likeCard(likeButton));
     return cardElement;
 }
 // @todo: Функция удаления карточки
-function deleteCard(card) {
+export function deleteCard(card) {
     card.remove();
 }
-// @todo: Вывести карточки на страницу
-initialCards.forEach((cardData) => {
-    const cardElement = createCard(cardData, deleteCard);
-    cardContainer.append(cardElement); //добавляю элемент в конец cardContainer
-});
+
+//функция проставления лайка
+export function likeCard(likeButton) {
+    likeButton.classList.toggle('card__like-button_is-active');
+}
+
