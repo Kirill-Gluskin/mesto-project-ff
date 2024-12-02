@@ -1,16 +1,15 @@
 export function openModal (modal) {
     modal.classList.add ('popup_is-opened');
-    const buttonClose = modal.querySelector('.popup__close');
-    buttonClose.addEventListener('click', () => closeModal(modal));
-    document.addEventListener('keydown', evt => escKeyHundler(modal, evt));
-    modal.addEventListener('mousedown', evt => modalOverlayHundler(modal, evt))
+    document.addEventListener('keydown', escKeyHundler);
 }
 
 export function closeModal (modal) {
     modal.classList.remove('popup_is-opened');
+   document.removeEventListener('keydown', escKeyHundler);
 }
 
-export function escKeyHundler (modal, evt) {
+export function escKeyHundler (evt) {
+    const modal = document.querySelector('.popup_is-opened')
     if (evt.key === "Escape") {
         closeModal(modal)
     }

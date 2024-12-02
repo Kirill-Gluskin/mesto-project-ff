@@ -1,6 +1,6 @@
 import './pages/index.css';
 import { initialCards } from "./scripts//cards";
-import { closeModal, openModal } from './scripts/modal.js';
+import { closeModal, openModal, modalOverlayHundler } from './scripts/modal.js';
 import { createCard, deleteCard, likeCard } from "./scripts/card";
 
 //элементы для вызова события при клике на кнопку редактирования
@@ -70,3 +70,11 @@ function  handleImageClick(evt) {
     popupCaption.textContent = imageNode.alt;
     openModal(modalImage);
 }
+
+//обработчик для элементов модального окна
+const popups = document.querySelectorAll('.popup');
+popups.forEach(popup => {
+    popup.addEventListener('mousedown', (evt) => modalOverlayHundler(popup, evt));
+    const closeButton = popup.querySelector('.popup__close');
+    closeButton.addEventListener('click', () => closeModal(popup));
+})
