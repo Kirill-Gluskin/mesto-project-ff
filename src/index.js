@@ -22,9 +22,9 @@ initialCards.forEach((cardData) => {
 });
 
 //действие с редактированием данных в название профеля
-const formElement = document.forms['edit-profile']
-const nameInput = formElement.elements.name;
-const jobInput = formElement.elements.description;
+const formEditProfile = document.forms['edit-profile']
+const nameInput = formEditProfile.elements.name;
+const jobInput = formEditProfile.elements.description;
 
 const profileTitle = document.querySelector('.profile__title');
 const profileDescription = document.querySelector('.profile__description');
@@ -39,21 +39,21 @@ function handleEditSubmit(evt) {
     closeModal(modalEdit);
 }
 
-formElement.addEventListener('submit', handleEditSubmit);
+formEditProfile.addEventListener('submit', handleEditSubmit);
 
 //действия с добавлением новой картинки
-const addCard = document.forms['new-place'];
-function handleAddCardSubmit(evt) {
+const formAddCard = document.forms['new-place'];
+function handleFormAddCardSubmit(evt) {
     evt.preventDefault();
-    const name = addCard.elements['place-name'].value;
-    const link = addCard.elements.link.value;
+    const name = formAddCard.elements['place-name'].value;
+    const link = formAddCard.elements.link.value;
     const card = createCard({name, link}, deleteCard, likeCard, handleImageClick);
     cardContainer.prepend(card);
     closeModal(modalPlus);
-    addCard.reset();
+    formAddCard.reset();
 }
 
-addCard.addEventListener('submit', handleAddCardSubmit);
+formAddCard.addEventListener('submit', handleFormAddCardSubmit);
 
 //получение элеиента по нажатию на картинку
 const modalImage = document.querySelector('.popup_type_image');
