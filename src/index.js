@@ -47,7 +47,6 @@ function handleAddCardSubmit(evt) {
     evt.preventDefault();
     const name = addCard.elements['place-name'].value;
     const link = addCard.elements.link.value;
-    console.log(name, link);
     const card = createCard({name, link}, deleteCard, likeCard, handleImageClick);
     cardContainer.prepend(card);
     closeModal(modalPlus);

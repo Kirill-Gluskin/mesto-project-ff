@@ -11,7 +11,7 @@ export function closeModal (modal) {
 }
 
 export function escKeyHundler (modal, evt) {
-    if (evt.keyCode === 27) {
+    if (evt.key === "Escape") {
         closeModal(modal)
     }
 }
