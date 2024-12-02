@@ -55,17 +55,18 @@ function handleFormAddCardSubmit(evt) {
 
 formAddCard.addEventListener('submit', handleFormAddCardSubmit);
 
-//получение элеиента по нажатию на картинку
+//получение элемента по нажатию на картинку
 const modalImage = document.querySelector('.popup_type_image');
+
+// Находим элементы один раз и записываем в константы
+const popupImage = modalImage.querySelector('.popup__image');
+const popupCaption = modalImage.querySelector('.popup__caption');
 
 //функция попапа картинки
 function  handleImageClick(evt) {
     const imageNode = evt.target;
-    const imageSrc = imageNode.src;
-    const imageAlt = imageNode.alt;
-    const popupImage = modalImage.querySelector('.popup__image');
-    const popupCaption = modalImage.querySelector('.popup__caption');
-    popupImage.src = imageSrc;
-    popupCaption.textContent = imageAlt;
+    popupImage.src = imageNode.src;
+    popupImage.alt = imageNode.alt;
+    popupCaption.textContent = imageNode.alt;
     openModal(modalImage);
 }
