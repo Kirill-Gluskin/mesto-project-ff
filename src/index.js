@@ -2,6 +2,7 @@ import './pages/index.css';
 import { initialCards } from "./scripts//cards";
 import { closeModal, openModal, modalOverlayHundler } from './scripts/modal.js';
 import { createCard, deleteCard, likeCard } from "./scripts/card";
+import { enableValidation } from "./scripts/validation";
 
 //элементы для вызова события при клике на кнопку редактирования
 const buttonEdit = document.querySelector('.profile__edit-button');
@@ -40,7 +41,6 @@ function handleEditSubmit(evt) {
 }
 
 formEditProfile.addEventListener('submit', handleEditSubmit);
-
 //действия с добавлением новой картинки
 const formAddCard = document.forms['new-place'];
 function handleFormAddCardSubmit(evt) {
@@ -62,6 +62,16 @@ const modalImage = document.querySelector('.popup_type_image');
 const popupImage = modalImage.querySelector('.popup__image');
 const popupCaption = modalImage.querySelector('.popup__caption');
 
+//валидация форм
+enableValidation({
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'popup__button_disabled',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__error_visible'
+});
+
 //функция попапа картинки
 function  handleImageClick(evt) {
     const imageNode = evt.target;
@@ -78,3 +88,10 @@ popups.forEach(popup => {
     const closeButton = popup.querySelector('.popup__close');
     closeButton.addEventListener('click', () => closeModal(popup));
 })
+
+//взаимодействия с api
+const token = 'c49ac4b0-9e04-48a3-8816-ec92ceadcd52';
+const cohortId = 'wff-cohort-29';
+
+//функция взаимодействия с api
+const fetchData = createApiRequest(cohortId, token);
