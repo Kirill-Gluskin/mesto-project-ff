@@ -71,3 +71,35 @@ export const addCard = (cardData) => {
             return Promise.reject(`Ошибка: ${res.status}`);
         })
 }
+
+//удаление карточки
+export const deleteCardById = (id) => {
+    return fetch(`${config.baseUrl}/cards/${id}`, {
+        method: 'DELETE',
+        headers: config.headers,
+    })
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            }
+
+            // если ошибка, отклоняем промис
+            return Promise.reject(`Ошибка: ${res.status}`);
+        })
+}
+
+export const updateUserAvatar = (avatar) => {
+    return fetch(`${config.baseUrl}/users/me/avatar `, {
+        method: 'PATCH',
+        headers: config.headers,
+        body: JSON.stringify({avatar})
+    })
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            }
+
+            // если ошибка, отклоняем промис
+            return Promise.reject(`Ошибка: ${res.status}`);
+        })
+}

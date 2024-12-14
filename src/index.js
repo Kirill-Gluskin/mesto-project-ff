@@ -2,7 +2,7 @@ import './pages/index.css';
 import { closeModal, openModal, modalOverlayHundler } from './scripts/modal.js';
 import { createCard, deleteCard, likeCard } from "./scripts/card";
 import { enableValidation } from "./scripts/validation";
-import {getUserInfo, getCards, updateUserInfo, addCard} from "./scripts/API";
+import {getUserInfo, getCards, updateUserInfo, addCard, deleteCardById, updateUserAvatar} from "./scripts/API";
 
 //элементы для вызова события при клике на кнопку редактирования
 let myUserId;
@@ -105,3 +105,20 @@ Promise.all ([getUserInfo(), getCards()]).then(([userInfo, cards]) => {
         cardContainer.append(cardElement); //добавляю элемент в конец cardContainer
     });
 })
+
+//открытие попапа смены аватарки
+const newAvatar = document.querySelector('.profile__image');
+const modalAvatar = document.querySelector('.popup_type_new-avatar');
+newAvatar.addEventListener('click', () => openModal(modalAvatar));
+
+//обнволение аватара
+const formNewAvatar = document.forms['new-avatar'];
+function handleFormUpdateAvatar(evt) {
+    evt.preventDefault();
+    updateUserAvatar(formNewAvatar.elements.link.value).then((userInfo) => {
+        profileAvatar.style.backgroundImage = `url('${userInfo.avatar}')`;
+        closeModal(modalAvatar)
+    })
+}
+
+formNewAvatar.addEventListener('submit', handleFormUpdateAvatar);

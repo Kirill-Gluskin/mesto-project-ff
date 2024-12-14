@@ -1,4 +1,6 @@
 //получаю содержимое template через свойство content
+import {deleteCardById} from "./API";
+
 const cardTemplate = document.querySelector("#card-template").content;
 
     // @todo: Функция создания карточки
@@ -18,7 +20,11 @@ export function createCard(cardData, deleteCard, likeCard, openImage, userId) {
     cardTitle.textContent = cardData.name;
     likeCounter.textContent = cardData.likes.length
     //добавляю обработчик для удаления карточки по кнопке deleteButton
-    deleteButton.addEventListener('click', () => deleteCard(cardElement));
+    deleteButton.addEventListener('click', () => {
+        deleteCardById(cardData._id).then(()=> {
+            deleteCard(cardElement)
+        })
+    });
     //проставление лайка
     const likeButton = cardElement.querySelector('.card__like-button');
     likeButton.addEventListener('click', () => likeCard(likeButton));
