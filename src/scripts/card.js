@@ -1,5 +1,5 @@
 //получаю содержимое template через свойство content
-import {deleteCardById} from "./api";
+import {deleteCardById, likeCardById, removeLikeCardById} from "./api";
 
 const cardTemplate = document.querySelector("#card-template").content;
 
@@ -27,7 +27,7 @@ export function createCard(cardData, deleteCard, likeCard, openImage, userId) {
     });
     //проставление лайка
     const likeButton = cardElement.querySelector('.card__like-button');
-    likeButton.addEventListener('click', () => likeCard(likeButton));
+    likeButton.addEventListener('click', () => likeCard(likeButton, likeCounter, cardData._id));
     //открытие попапа с карточкой
     cardImage.addEventListener('click', openImage);
     return cardElement;
@@ -38,8 +38,19 @@ export function deleteCard(card) {
 }
 
 //функция проставления лайка
-export function likeCard(likeButton) {
-    likeButton.classList.toggle('card__like-button_is-active');
+export function likeCard(likeButton, likeCounter, cardId) {
+    if (likeButton.classList.contains('card__like-button_is-active')) {
+        removeLikeCardById(cardId).then((data) => {
+           likeCounter.textContent = data.likes.length;
+           likeButton.classList.toggle('card__like-button_is-active');
+        })
+    }
+    else {
+        likeCardById(cardId).then((data) => {
+            likeCounter.textContent = data.likes.length;
+            likeButton.classList.toggle('card__like-button_is-active');
+        });
+    }
 }
 
 

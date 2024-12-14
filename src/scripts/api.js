@@ -103,3 +103,33 @@ export const updateUserAvatar = (avatar) => {
             return Promise.reject(`Ошибка: ${res.status}`);
         })
 }
+
+export const likeCardById = (cardID) => {
+    return fetch(`${config.baseUrl}/cards/likes/${cardID} `, {
+        method: 'PUT',
+        headers: config.headers,
+    })
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            }
+
+            // если ошибка, отклоняем промис
+            return Promise.reject(`Ошибка: ${res.status}`);
+        })
+}
+
+export const removeLikeCardById = (cardID) => {
+    return fetch(`${config.baseUrl}/cards/likes/${cardID} `, {
+        method: 'DELETE',
+        headers: config.headers,
+    })
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            }
+
+            // если ошибка, отклоняем промис
+            return Promise.reject(`Ошибка: ${res.status}`);
+        })
+}
