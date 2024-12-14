@@ -1,53 +1,73 @@
 const API_BASE_URL = 'https://nomoreparties.co';
 
-const apiEndpoint = {
-    CARDS: {
-        LIST: '/cards',
-        SPECIFIC: (cardId) => `/cards/${cardId}`,
-        LIKES: (cardId) => `/cards/likes/${cardId}`
-    },
-    PROFILE: {
-        DATA: '/users/me',
-        AVATAR: '/users/me/avatar',
+const TOKEN = 'c49ac4b0-9e04-48a3-8816-ec92ceadcd52';
+const COHORT_ID = 'wff-cohort-29';
+
+const config = {
+    baseUrl: `${API_BASE_URL}/v1/${COHORT_ID}`,
+    headers: {
+        authorization: TOKEN,
+        'Content-Type': 'application/json'
     }
-};
+}
 
-const httpMethod = {
-    GET: 'GET',
-    POST: 'POST',
-    PUT: 'PUT',
-    DELETE: 'DELETE',
-    PATCH: 'PATCH'
-};
-
-const createApiRequest = (cohortId, token) => {
-    const basePath = `${API_BASE_URL}/v1/${cohortId}`;
-
-    // универсальная функция выполнения запросов
-    return (endpoint, method='GET', body=null) => {
-        const url = `${basePath}${endpoint}`;
-
-        const options = {
-            method,
-            headers: {
-                'Content-Type': 'application/json',
-                authorization: token,
-            }
-        };
-
-        if (body) {
-            options.body = JSON.stringify(body);
-        }
-
-        return fetch(url, options)
-            .then((res) => {
-                if(!res.ok) {
-                    throw Promise.reject(`Ошибка ${res.status}`);
-                }
+export const getUserInfo = () => {
+    return fetch(`${config.baseUrl}/users/me`, {
+        headers: config.headers
+    })
+        .then(res => {
+            if (res.ok) {
                 return res.json();
-            });
-    };
-};
+            }
 
+            // если ошибка, отклоняем промис
+            return Promise.reject(`Ошибка: ${res.status}`);
+        });
+}
 
-export { createApiRequest, apiEndpoint, httpMethod };
+export const getCards = () => {
+    return fetch(`${config.baseUrl}/cards/`, {
+        headers: config.headers
+    })
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            }
+
+            // если ошибка, отклоняем промис
+            return Promise.reject(`Ошибка: ${res.status}`);
+        });
+}
+
+//обновляю информацию о пользователе
+export const updateUserInfo = (userData) => {
+    return fetch(`${config.baseUrl}/users/me`, {
+        method: 'PATCH',
+        headers: config.headers,
+        body: JSON.stringify(userData)
+    })
+        .then(res => {
+                if (res.ok) {
+                    return res.json();
+                }
+
+                // если ошибка, отклоняем промис
+                return Promise.reject(`Ошибка: ${res.status}`);
+            })
+}
+
+export const addCard = (cardData) => {
+    return fetch(`${config.baseUrl}/cards`, {
+        method: 'POST',
+        headers: config.headers,
+        body: JSON.stringify(cardData)
+    })
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            }
+
+            // если ошибка, отклоняем промис
+            return Promise.reject(`Ошибка: ${res.status}`);
+        })
+}
