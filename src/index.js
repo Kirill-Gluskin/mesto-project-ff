@@ -2,7 +2,7 @@ import './pages/index.css';
 import { closeModal, openModal, modalOverlayHundler } from './scripts/modal.js';
 import { createCard, deleteCard, likeCard } from "./scripts/card";
 import { enableValidation } from "./scripts/validation";
-import {getUserInfo, getCards, updateUserInfo, addCard, deleteCardById, updateUserAvatar} from "./scripts/API";
+import {getUserInfo, getCards, updateUserInfo, addCard, deleteCardById, updateUserAvatar} from "./scripts/api";
 
 //элементы для вызова события при клике на кнопку редактирования
 let myUserId;
@@ -31,8 +31,10 @@ const profileAvatar = document.querySelector('.profile__image')
 nameInput.value = profileTitle.textContent;
 jobInput.value = profileDescription.textContent;
 
+const editProfileButton = formEditProfile.querySelector('.popup__button')
 function handleEditSubmit(evt) {
     evt.preventDefault();
+    editProfileButton.textContent = 'Сохранение...';
     updateUserInfo({
         name: nameInput.value,
         about: jobInput.value,
@@ -41,13 +43,16 @@ function handleEditSubmit(evt) {
         profileDescription.textContent = result.about;
         closeModal(modalEdit);
     })
+        .finally(() => {editProfileButton.textContent = 'Сохранить'})
 }
 
 formEditProfile.addEventListener('submit', handleEditSubmit);
 //действия с добавлением новой картинки
 const formAddCard = document.forms['new-place'];
+const newCardSubmitButton = formAddCard.querySelector('.popup__button')
 function handleFormAddCardSubmit(evt) {
     evt.preventDefault();
+    newCardSubmitButton.textContent = 'Сохранение...';
     addCard({
         name: formAddCard.elements['place-name'].value,
         link: formAddCard.elements.link.value,
@@ -57,6 +62,7 @@ function handleFormAddCardSubmit(evt) {
             closeModal(modalPlus);
             formAddCard.reset();
     })
+        .finally(() => {newCardSubmitButton.textContent = 'Сохранить'})
 }
 
 formAddCard.addEventListener('submit', handleFormAddCardSubmit);
@@ -113,12 +119,16 @@ newAvatar.addEventListener('click', () => openModal(modalAvatar));
 
 //обнволение аватара
 const formNewAvatar = document.forms['new-avatar'];
+const avatarSubmitButton = formNewAvatar.querySelector('.popup__button');
 function handleFormUpdateAvatar(evt) {
     evt.preventDefault();
+    avatarSubmitButton.textContent = 'Сохранение...';
     updateUserAvatar(formNewAvatar.elements.link.value).then((userInfo) => {
         profileAvatar.style.backgroundImage = `url('${userInfo.avatar}')`;
         closeModal(modalAvatar)
+        formNewAvatar.reset();
     })
+        .finally(() => {avatarSubmitButton.textContent = 'Сохранить'})
 }
 
 formNewAvatar.addEventListener('submit', handleFormUpdateAvatar);

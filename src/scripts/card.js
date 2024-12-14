@@ -1,5 +1,5 @@
 //получаю содержимое template через свойство content
-import {deleteCardById} from "./API";
+import {deleteCardById} from "./api";
 
 const cardTemplate = document.querySelector("#card-template").content;
 
