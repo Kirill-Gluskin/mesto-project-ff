@@ -34,9 +34,14 @@ const toggleButtonState = (inputList, buttonElement, config) => {
 
 //проверка валидности полей
 const isValid = (formElement, inputElement, config) => {
-  if (!inputElement.validity.valid) {
+  if (inputElement.validity.patternMismatch) {
+    // Если ввод не соответствует паттерну, выводим кастомное сообщение
+    showInputError(formElement, inputElement, inputElement.dataset.errorMessage, config);
+  } else if (!inputElement.validity.valid) {
+    // Если ввод не валидный по другим причинам
     showInputError(formElement, inputElement, inputElement.validationMessage, config);
   } else {
+    // Если ввод валидный
     hideInputError(formElement, inputElement, config);
   }
 };
@@ -72,4 +77,14 @@ const enableValidation = (config) => {
   });
 };
 
-export { enableValidation }
+const clearValidation = (formElement, config) => {
+  const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
+  const submitButton = formElement.querySelector(config.submitButtonSelector);
+  inputList.forEach((inputElement) => {
+    inputElement.value = "";
+    hideInputError(formElement,inputElement, config);
+  });
+  toggleButtonState(inputList, submitButton, config);
+}
+
+export { enableValidation, clearValidation }

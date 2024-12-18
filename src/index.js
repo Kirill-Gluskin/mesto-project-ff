@@ -1,14 +1,27 @@
 import './pages/index.css';
 import { closeModal, openModal, modalOverlayHundler } from './scripts/modal.js';
 import { createCard, deleteCard, likeCard } from "./scripts/card";
-import { enableValidation } from "./scripts/validation";
-import {getUserInfo, getCards, updateUserInfo, addCard, deleteCardById, updateUserAvatar} from "./scripts/api";
+import { enableValidation, clearValidation } from "./scripts/validation";
+import { getUserInfo, getCards, updateUserInfo, addCard, updateUserAvatar } from "./scripts/api";
+
+//config валидации
+const config = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'popup__button_disabled',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__error_visible'
+}
 
 //элементы для вызова события при клике на кнопку редактирования
 let myUserId;
 const buttonEdit = document.querySelector('.profile__edit-button');
 const modalEdit = document.querySelector('.popup_type_edit');
-buttonEdit.addEventListener('click', () => openModal(modalEdit))
+buttonEdit.addEventListener('click', () => {
+    clearValidation(formEditProfile, config);
+    openModal(modalEdit)
+})
 
 //элементы для вызова события при клике на кнопку плюс
 const buttonPlus = document.querySelector('.profile__add-button');
@@ -63,7 +76,7 @@ function handleFormAddCardSubmit(evt) {
         const card = createCard(cardData, deleteCard, likeCard, handleImageClick, myUserId);
             cardContainer.prepend(card);
             closeModal(modalPlus);
-            formAddCard.reset();
+            clearValidation(formAddCard, config);
     })
         .catch((err) => {
             console.log(err); // выводим ошибку в консоль
@@ -80,14 +93,7 @@ const popupImage = modalImage.querySelector('.popup__image');
 const popupCaption = modalImage.querySelector('.popup__caption');
 
 //валидация форм
-enableValidation({
-    formSelector: '.popup__form',
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__button',
-    inactiveButtonClass: 'popup__button_disabled',
-    inputErrorClass: 'popup__input_type_error',
-    errorClass: 'popup__error_visible'
-});
+enableValidation(config);
 
 //функция попапа картинки
 function  handleImageClick(evt) {
