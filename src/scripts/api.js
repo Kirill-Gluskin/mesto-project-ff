@@ -11,18 +11,22 @@ const config = {
     }
 }
 
+const handleResponse = (response) => {
+    if (response.ok) {
+        return response.json();
+    }
+
+    // если ошибка, отклоняем промис
+    return Promise.reject(`Ошибка: ${res.status}`);
+}
+
 export const getUserInfo = () => {
     return fetch(`${config.baseUrl}/users/me`, {
         headers: config.headers
     })
         .then(res => {
-            if (res.ok) {
-                return res.json();
-            }
-
-            // если ошибка, отклоняем промис
-            return Promise.reject(`Ошибка: ${res.status}`);
-        });
+            return handleResponse(res);
+            })
 }
 
 export const getCards = () => {
@@ -30,13 +34,8 @@ export const getCards = () => {
         headers: config.headers
     })
         .then(res => {
-            if (res.ok) {
-                return res.json();
-            }
-
-            // если ошибка, отклоняем промис
-            return Promise.reject(`Ошибка: ${res.status}`);
-        });
+            return handleResponse(res);
+        })
 }
 
 //обновляю информацию о пользователе
@@ -47,13 +46,8 @@ export const updateUserInfo = (userData) => {
         body: JSON.stringify(userData)
     })
         .then(res => {
-                if (res.ok) {
-                    return res.json();
-                }
-
-                // если ошибка, отклоняем промис
-                return Promise.reject(`Ошибка: ${res.status}`);
-            })
+            return handleResponse(res);
+        })
 }
 
 export const addCard = (cardData) => {
@@ -63,12 +57,7 @@ export const addCard = (cardData) => {
         body: JSON.stringify(cardData)
     })
         .then(res => {
-            if (res.ok) {
-                return res.json();
-            }
-
-            // если ошибка, отклоняем промис
-            return Promise.reject(`Ошибка: ${res.status}`);
+            return handleResponse(res);
         })
 }
 
@@ -79,12 +68,7 @@ export const deleteCardById = (id) => {
         headers: config.headers,
     })
         .then(res => {
-            if (res.ok) {
-                return res.json();
-            }
-
-            // если ошибка, отклоняем промис
-            return Promise.reject(`Ошибка: ${res.status}`);
+            return handleResponse(res);
         })
 }
 
@@ -95,12 +79,7 @@ export const updateUserAvatar = (avatar) => {
         body: JSON.stringify({avatar})
     })
         .then(res => {
-            if (res.ok) {
-                return res.json();
-            }
-
-            // если ошибка, отклоняем промис
-            return Promise.reject(`Ошибка: ${res.status}`);
+            return handleResponse(res);
         })
 }
 
@@ -110,12 +89,7 @@ export const likeCardById = (cardID) => {
         headers: config.headers,
     })
         .then(res => {
-            if (res.ok) {
-                return res.json();
-            }
-
-            // если ошибка, отклоняем промис
-            return Promise.reject(`Ошибка: ${res.status}`);
+            return handleResponse(res);
         })
 }
 
@@ -125,11 +99,6 @@ export const removeLikeCardById = (cardID) => {
         headers: config.headers,
     })
         .then(res => {
-            if (res.ok) {
-                return res.json();
-            }
-
-            // если ошибка, отклоняем промис
-            return Promise.reject(`Ошибка: ${res.status}`);
+            return handleResponse(res);
         })
 }

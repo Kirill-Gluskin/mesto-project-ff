@@ -43,6 +43,9 @@ function handleEditSubmit(evt) {
         profileDescription.textContent = result.about;
         closeModal(modalEdit);
     })
+        .catch((err) => {
+            console.log(err); // выводим ошибку в консоль
+        })
         .finally(() => {editProfileButton.textContent = 'Сохранить'})
 }
 
@@ -62,6 +65,9 @@ function handleFormAddCardSubmit(evt) {
             closeModal(modalPlus);
             formAddCard.reset();
     })
+        .catch((err) => {
+            console.log(err); // выводим ошибку в консоль
+        })
         .finally(() => {newCardSubmitButton.textContent = 'Сохранить'})
 }
 
@@ -111,6 +117,9 @@ Promise.all ([getUserInfo(), getCards()]).then(([userInfo, cards]) => {
         cardContainer.append(cardElement); //добавляю элемент в конец cardContainer
     });
 })
+    .catch((err) => {
+        console.log(err); // выводим ошибку в консоль
+    });
 
 //открытие попапа смены аватарки
 const newAvatar = document.querySelector('.profile__image');
@@ -128,6 +137,9 @@ function handleFormUpdateAvatar(evt) {
         closeModal(modalAvatar)
         formNewAvatar.reset();
     })
+        .catch((err) => {
+            console.log(err); // выводим ошибку в консоль
+        })
         .finally(() => {avatarSubmitButton.textContent = 'Сохранить'})
 }
 
